@@ -5,7 +5,7 @@
 
 export type LessonId = string;
 
-export interface Lesson {
+export interface Lesson<Req = unknown, Res = unknown> {
     /** Unique lesson identifier. */
     id: LessonId;
     /** Roadmap level. */
@@ -15,7 +15,7 @@ export interface Lesson {
     /** Short description for the lessons listing. */
     description: string;
     /** Lesson body; returns mock data in demos. */
-    execute(payload: unknown): unknown;
+    execute(payload: Req): Res;
 }
 
 /** Short lesson representation for listing. */

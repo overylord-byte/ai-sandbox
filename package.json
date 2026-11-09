@@ -7,6 +7,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "experiment": "tsx src/scripts/example-experiment.ts",
+    "experiment:pricing": "tsx src/scripts/pricing-experiment.ts",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix"
   },

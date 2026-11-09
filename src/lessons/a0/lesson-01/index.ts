@@ -1,24 +1,39 @@
-// A0.1 — Hello World.
-// Demo lesson: shows the minimal Lesson contract.
-// No ML logic: only mock data and console.log output.
+import type {Lesson} from '../../types.js';
+import {apartmentPricingModel} from "../../../server";
+import {predictPrice} from "../../../ml/pricing/predictPrice";
 
-import { logger } from '../../../core/logger.js';
-import type { Lesson } from '../../types.js';
+type LessonRequest = {
+    area: number;
+}
 
-export const lesson: Lesson = {
+type LessonResponse = {
+    area?: number;
+    predictedPrice?: number;
+    errorStatus?: number;
+    error?: string;
+}
+
+export const lesson: Lesson<LessonRequest, LessonResponse> = {
     id: 'a0/lesson-01',
     level: 'a0',
-    title: 'Introduction to AI (demo)',
-    description: 'Mock lesson: greeting and echo of the incoming payload.',
+    title: 'Predict apartment price by area',
+    description: 'Simple ML model which predicts price by area of apartment',
 
-    execute(payload: unknown): unknown {
-        logger.info('lesson', `a0/lesson-01 received payload: ${JSON.stringify(payload)}`);
+    execute(payload: LessonRequest): LessonResponse {
+        if (apartmentPricingModel === undefined) {
+            return {errorStatus: 500, error: 'Pricing model is not trained / exists'}
+        }
 
-        // Mock data so the response shape is visible right away.
+        const area = payload.area;
+
+        if (typeof area !== 'number' || !Number.isFinite(area) || area <= 0) {
+            return {errorStatus: 400, error: 'Invalid area'}
+        }
+
+        const predictedPrice = predictPrice(area, apartmentPricingModel);
+
         return {
-            message: 'Hello from A0.1',
-            received: payload ?? null,
-            mockPrediction: 0.42,
+            predictedPrice: +predictedPrice.toFixed(2)
         };
     },
 };

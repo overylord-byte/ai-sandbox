@@ -22,7 +22,7 @@ healthRouter.get('/api', (_req: Request, res: Response) => {
             'GET  /api',
             'GET  /api/lessons',
             'GET  /api/lessons/:lessonId',
-            'POST /api/lessons/:lessonId/execute',
+            'POST /api/lessons/:lessonId/execute'
         ],
     });
 });

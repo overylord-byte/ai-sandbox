@@ -3,9 +3,9 @@
 // routers). The endpoints themselves live in api/, the logic in lessons/. This allows
 // testing the application without starting the server (supertest) and without startup tasks.
 
-import express, { Request, Response } from 'express';
-import { apiRouter } from './api/index.js';
-import { logger } from './core/logger.js';
+import express, {Request, Response} from 'express';
+import {apiRouter} from './api/index.js';
+import {logger} from './core/logger.js';
 
 export const app = express();
 
